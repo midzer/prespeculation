@@ -47,6 +47,11 @@
     const preloadedUrls = new Set();
     
     const prefetcher = document.createElement('link');
+    prefetcher.as = prefetcher.relList.supports('prefetch') ? 'document' : 'fetch';
+    // as=document is Chromium-only and allows cross-origin prefetches to be
+  	// usable for navigation. They call it “restrictive prefetch” and intend
+  	// to remove it: https://crbug.com/1352371
+    // Safari doesn't support `document`
     prefetcher.rel = prefetcher.relList.supports('prefetch') ? 'prefetch' : 'preload';
     document.head.appendChild(prefetcher);
     
